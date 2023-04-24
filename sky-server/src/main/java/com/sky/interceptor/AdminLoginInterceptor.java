@@ -1,5 +1,6 @@
 package com.sky.interceptor;
 
+import com.sky.context.ThreadLocalUtil;
 import com.sky.properties.JwtProperties;
 import com.sky.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -33,6 +34,8 @@ public class AdminLoginInterceptor implements HandlerInterceptor {
         try {
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecret(), token);
             Long empId = Long.valueOf(claims.get("empId").toString());
+            //将empId绑定到线程上去
+            ThreadLocalUtil.setCurrentId(empId);
             //3、通过，放行
             return true;
         } catch (Exception ex) {
@@ -41,4 +44,5 @@ public class AdminLoginInterceptor implements HandlerInterceptor {
             return false;
         }
     }
+
 }

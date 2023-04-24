@@ -1,6 +1,7 @@
 package com.sky.web.admin;
 
 import cn.hutool.jwt.JWTUtil;
+import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
@@ -63,4 +64,11 @@ public class EmployeeController {
         PageResult p = employeeService.getpage(employeePageQueryDTO);
         return Result.success(p);
     }
+
+    @PostMapping()
+    public Result save(@RequestBody EmployeeDTO employeeDTO) {
+        employeeService.save(employeeDTO);
+        return Result.success();
+    }
+
 }
