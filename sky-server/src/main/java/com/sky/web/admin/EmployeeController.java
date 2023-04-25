@@ -53,21 +53,53 @@ public class EmployeeController {
                 .build();
         //ii
         return Result.success(builder);
-
+    //登陆退出
     }@PostMapping("/logout")
     public Result logout(){
         return Result.success();
     }
 
+
+    //分页
     @GetMapping("/page")
     public Result getPage(EmployeePageQueryDTO employeePageQueryDTO){
+
         PageResult p = employeeService.getpage(employeePageQueryDTO);
         return Result.success(p);
     }
-
+    //保存
     @PostMapping()
     public Result save(@RequestBody EmployeeDTO employeeDTO) {
         employeeService.save(employeeDTO);
+        return Result.success();
+    }
+
+    // 回显员工
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable("id") Long id) {
+        // 调用service
+        Employee employee = employeeService.getById(id);
+        // 返回
+        return Result.success(employee);
+    }
+
+    // 修改员工
+    @PutMapping
+    public Result updateById(@RequestBody EmployeeDTO employeeDTO){
+        // 调用service
+        employeeService.updateById(employeeDTO);
+        // 返回success
+        return Result.success();
+    }
+
+    // 启动禁用
+    @PostMapping("/status/{status}")
+    public Result startOrStop(
+            @PathVariable("status") Integer status,
+            @RequestParam Long id) {
+        // 调用service
+        employeeService.startOrStop(status, id);
+        // 返回success
         return Result.success();
     }
 

@@ -109,5 +109,44 @@ public class EmployeeServiceImpl implements EmployeeService {
         // 4.调用mapper保存到数据库
         employeeMapper.insert(employee);
     }
+    // 回显员工
+    @Override
+    public Employee getById(Long id) {
+        return employeeMapper.getById(id);
+    }
+
+
+    // 修改员工
+    @Override
+    public void updateById(EmployeeDTO employeeDTO) {
+        // 1.非法参数校验
+        if (employeeDTO.getId()==null) {
+            throw new BusinessException("修改id不能为空");
+        }
+        // 2. 加一个校验手机号
+
+        // 3.dto->entity
+        Employee employee = BeanUtil.copyProperties(employeeDTO, Employee.class);
+        // 3-1 补充信息
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(ThreadLocalUtil.getCurrentId());
+
+        // 4.调用mapper修改
+        employeeMapper.updateById(employee);
+    }
+
+    // 启动禁用
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        // 1.封装employee对象
+        Employee employee = Employee.builder()
+                .id(id)
+                .status(status).build();
+        // 2.补充信息
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(ThreadLocalUtil.getCurrentId());
+        // 3.调用mapper修改
+        employeeMapper.updateById(employee);
+    }
 
 }

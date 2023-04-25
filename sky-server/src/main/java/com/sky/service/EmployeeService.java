@@ -17,4 +17,14 @@ public interface EmployeeService {
 
     void save(EmployeeDTO employeeDTO);
 
+    Employee getById(Long id);
+
+    // 修改员工
+    void updateById(EmployeeDTO employeeDTO);
+
+    // 启动禁用
+    void startOrStop(Integer status, Long id);
+
+
+
 }

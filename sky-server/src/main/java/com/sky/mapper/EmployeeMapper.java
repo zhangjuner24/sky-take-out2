@@ -22,4 +22,12 @@ public interface EmployeeMapper {
     Employee getIdNumber(String idNumber);
     //保存
     void insert(Employee employee);
+
+    // 根据id查询
+    @Select("select * from employee where id =#{id}")
+    Employee getById(Long id);
+
+
+    // 修改员工
+    void updateById(Employee employee);
 }
